@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   mongodb:
-    image: mongo:5.0
+    image: mongo:4.4
     container_name: fdm_mongodb_prod
     restart: unless-stopped
     ports:
