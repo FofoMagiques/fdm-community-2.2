@@ -1,0 +1,66 @@
+version: '3.8'
+
+services:
+  mongodb:
+    image: mongo:5.0
+    container_name: fdm_mongodb
+    restart: unless-stopped
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+    environment:
+      - MONGO_INITDB_DATABASE=fdm_community
+    networks:
+      - fdm_network
+
+  backend:
+    build: 
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: fdm_backend
+    restart: unless-stopped
+    ports:
+      - "8001:8001"
+    depends_on:
+      - mongodb
+    environment:
+      - CLIENT_ID=1393406406865977477
+      - CLIENT_SECRET=iTPBEl5MY7tm3Ft9WZOfexhxIT8DsuC6
+      - REDIRECT_URI=http://teamfdm.fr:3000/callback
+      - SESSION_SECRET=fdmquedelaim
+      - MONGO_URL=mongodb://mongodb:27017
+      - DB_NAME=fdm_community
+      - DISCORD_GUILD_ID=681602280893579342
+      - DISCORD_BOT_TOKEN=MTM5MzQwNjQwNjg2NTk3NzQ3Nw.GRoZjT.74zjLkOdmmA56UQRAbbL8klALCYoqdBKGYZbwY
+    volumes:
+      - ./backend:/app
+    networks:
+      - fdm_network
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: fdm_frontend
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+    environment:
+      - REACT_APP_BACKEND_URL=http://teamfdm.fr:8001
+      - NODE_ENV=development
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    networks:
+      - fdm_network
+
+networks:
+  fdm_network:
+    driver: bridge
+
+volumes:
+  mongodb_data:
+    driver: local

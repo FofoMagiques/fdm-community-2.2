@@ -1,0 +1,92 @@
+{
+  "timestamp": "2025-07-13T13:58:36.440509",
+  "total_tests": 14,
+  "passed_tests": 10,
+  "success_rate": 0.7142857142857143,
+  "results": [
+    {
+      "name": "API Connectivity",
+      "success": true,
+      "details": "Server responding (status: 404)",
+      "timestamp": "2025-07-13T13:58:35.833115"
+    },
+    {
+      "name": "Root Endpoint",
+      "success": true,
+      "details": "Status: 200",
+      "timestamp": "2025-07-13T13:58:35.835389"
+    },
+    {
+      "name": "Root Message Content",
+      "success": true,
+      "details": "Correct API message",
+      "timestamp": "2025-07-13T13:58:35.835479"
+    },
+    {
+      "name": "Discord Auth Endpoint",
+      "success": true,
+      "details": "Status: 200",
+      "timestamp": "2025-07-13T13:58:35.837439"
+    },
+    {
+      "name": "Discord Auth URL",
+      "success": true,
+      "details": "Valid Discord OAuth URL returned",
+      "timestamp": "2025-07-13T13:58:35.837542"
+    },
+    {
+      "name": "Server Stats Endpoint",
+      "success": true,
+      "details": "Status: 200",
+      "timestamp": "2025-07-13T13:58:36.426083"
+    },
+    {
+      "name": "Stats Fields",
+      "success": true,
+      "details": "All required fields present: ['member_count', 'online_count', 'boost_count', 'channel_count', 'role_count']",
+      "timestamp": "2025-07-13T13:58:36.426208"
+    },
+    {
+      "name": "Protected auth/me (No Auth)",
+      "success": false,
+      "details": "Status: 403 (expected 401) | Response: {\"detail\":\"Not authenticated\"}",
+      "timestamp": "2025-07-13T13:58:36.428578"
+    },
+    {
+      "name": "Protected users (No Auth)",
+      "success": false,
+      "details": "Status: 403 (expected 401) | Response: {\"detail\":\"Not authenticated\"}",
+      "timestamp": "2025-07-13T13:58:36.430623"
+    },
+    {
+      "name": "Protected admin/dashboard (No Auth)",
+      "success": false,
+      "details": "Status: 403 (expected 401) | Response: {\"detail\":\"Not authenticated\"}",
+      "timestamp": "2025-07-13T13:58:36.432747"
+    },
+    {
+      "name": "Non-existent nonexistent",
+      "success": true,
+      "details": "Status: 404",
+      "timestamp": "2025-07-13T13:58:36.434741"
+    },
+    {
+      "name": "Non-existent auth/invalid",
+      "success": true,
+      "details": "Status: 404",
+      "timestamp": "2025-07-13T13:58:36.436709"
+    },
+    {
+      "name": "Non-existent users/invalid/action",
+      "success": true,
+      "details": "Status: 404",
+      "timestamp": "2025-07-13T13:58:36.438477"
+    },
+    {
+      "name": "CORS Headers",
+      "success": false,
+      "details": "No CORS headers found",
+      "timestamp": "2025-07-13T13:58:36.440275"
+    }
+  ]
+}
