@@ -24,15 +24,10 @@ services:
       - "8001:8001"
     depends_on:
       - mongodb
+    env_file:
+      - ./backend/.env
     environment:
-      - CLIENT_ID=1393406406865977477
-      - CLIENT_SECRET=iTPBEl5MY7tm3Ft9WZOfexhxIT8DsuC6
-      - REDIRECT_URI=http://teamfdm.fr:3000/callback
-      - SESSION_SECRET=fdmquedelaim
       - MONGO_URL=mongodb://mongodb:27017
-      - DB_NAME=fdm_community
-      - DISCORD_GUILD_ID=681602280893579342
-      - DISCORD_BOT_TOKEN=MTM5MzQwNjQwNjg2NTk3NzQ3Nw.GRoZjT.74zjLkOdmmA56UQRAbbL8klALCYoqdBKGYZbwY
     volumes:
       - ./backend:/app
     networks:
@@ -48,8 +43,9 @@ services:
       - "3000:3000"
     depends_on:
       - backend
+    env_file:
+      - ./frontend/.env
     environment:
-      - REACT_APP_BACKEND_URL=http://teamfdm.fr:8001
       - NODE_ENV=development
     volumes:
       - ./frontend:/app

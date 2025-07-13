@@ -18,8 +18,23 @@ if ! command -v docker-compose &> /dev/null; then
     exit 1
 fi
 
+# Obtenir le répertoire du script
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+echo "📁 Répertoire du projet: $SCRIPT_DIR"
+
 # Aller dans le dossier du projet
-cd /volume1/web/FDM
+cd "$SCRIPT_DIR"
+
+# Vérifier que les fichiers .env existent
+if [ ! -f "./backend/.env" ]; then
+    echo "❌ Fichier ./backend/.env manquant"
+    exit 1
+fi
+
+if [ ! -f "./frontend/.env" ]; then
+    echo "❌ Fichier ./frontend/.env manquant"
+    exit 1
+fi
 
 # Arrêter les conteneurs existants
 echo "🛑 Arrêt des conteneurs existants..."
@@ -40,15 +55,15 @@ docker-compose ps
 # Tester les services
 echo "🧪 Test des services..."
 echo "Backend API:"
-curl -s http://teamfdm.fr:8001/api/ || echo "❌ Backend non accessible"
+curl -s http://localhost:8001/api/ && echo "✅ Backend OK" || echo "❌ Backend non accessible"
 
 echo "Frontend:"
-curl -s -I http://teamfdm.fr:3000 | head -1 || echo "❌ Frontend non accessible"
+curl -s -I http://localhost:3000 | head -1 && echo "✅ Frontend OK" || echo "❌ Frontend non accessible"
 
 echo ""
 echo "✅ FDM Community est démarré !"
-echo "🌐 Site web: http://teamfdm.fr:3000"
-echo "🔧 API: http://teamfdm.fr:8001/api/"
+echo "🌐 Site web: http://localhost:3000"
+echo "🔧 API: http://localhost:8001/api/"
 echo ""
 echo "📝 Logs en temps réel:"
 echo "   docker-compose logs -f"

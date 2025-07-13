@@ -6,8 +6,12 @@
 echo "🛑 Arrêt de FDM Community"
 echo "========================"
 
+# Obtenir le répertoire du script
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+echo "📁 Répertoire du projet: $SCRIPT_DIR"
+
 # Aller dans le dossier du projet
-cd /volume1/web/FDM
+cd "$SCRIPT_DIR"
 
 # Arrêter les conteneurs
 echo "🛑 Arrêt des conteneurs..."
