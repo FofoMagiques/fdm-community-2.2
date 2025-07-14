@@ -1,0 +1,70 @@
+version: '3.8'
+
+services:
+  mongodb:
+    image: mongo:4.4
+    container_name: fdm_mongodb_https
+    restart: unless-stopped
+    volumes:
+      - mongodb_data_https:/data/db
+    environment:
+      - MONGO_INITDB_DATABASE=fdm_community
+    networks:
+      - fdm_network
+
+  backend:
+    build: 
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: fdm_backend_https
+    restart: unless-stopped
+    depends_on:
+      - mongodb
+    env_file:
+      - ./backend/.env
+    environment:
+      - MONGO_URL=mongodb://mongodb:27017
+      - NODE_ENV=production
+    networks:
+      - fdm_network
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: fdm_frontend_https
+    restart: unless-stopped
+    depends_on:
+      - backend
+    env_file:
+      - ./frontend/.env
+    environment:
+      - NODE_ENV=production
+    networks:
+      - fdm_network
+
+  nginx:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    container_name: fdm_nginx_https
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    depends_on:
+      - backend
+      - frontend
+    volumes:
+      - /usr/syno/etc/certificate/_archive/system/default:/etc/ssl/certs:ro
+      - /usr/syno/etc/certificate/_archive/system/default:/etc/ssl/private:ro
+    networks:
+      - fdm_network
+
+networks:
+  fdm_network:
+    driver: bridge
+
+volumes:
+  mongodb_data_https:
+    driver: local
